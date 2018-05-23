@@ -1,25 +1,58 @@
-const { expect, create } = require('./wrappers');
+const {
+  post,
+  createEvent,
+  listEvents,
+  showEvent,
+} = require('./methods');
 
-describe('create', () => {
-  before((done) => {
-    done();
+const { expect } = require('chai');
+
+describe('Create, list and show', () => {
+  const endpoint = '/api/v1/event';
+
+  it('should return 400 for empty payload', () => {
+    post(endpoint, {}).expect(400);
   });
 
-  const payload = {
-    name: 'Jake\'s secret party',
-    dates: [
-      '2014-01-01',
-      '2014-01-05',
-      '2014-01-12',
-    ],
-  };
+  it('should return 400 for invalid payload', () => {
+    const invalidPayload = {
+      name: 'Jake\'s secret party',
+      votes: [
+        '2014-01-01',
+        '2014-01-05',
+        '2014-01-12',
+      ],
+    };
 
-  const body = { body: JSON.stringify(payload) };
+    return post(endpoint, invalidPayload).expect(400);
+  });
 
-  it('should create new event', () =>
-    create.run(body).then((r) => {
-      expect(r).to.have.property('statusCode', 200);
-      expect(r.body).to.have.property('id');
-      expect(r.body.id).to.have.lengthOf(36);
-    }));
+  it('should create a new event, return it in a list and show the event', () => {
+    const payload = {
+      name: 'Jake\'s secret party',
+      dates: [
+        '2014-01-01',
+        '2014-01-05',
+        '2014-01-12',
+      ],
+    };
+
+    let eventId = 0;
+
+    return createEvent(endpoint, payload)
+      .then((id) => { eventId = id; })
+      .then(() => listEvents(`${endpoint}/list`))
+      .then((events) => {
+        expect(events).to.be.an('array');
+        const vote = events.find(e => e.id === eventId);
+        expect(vote).to.have.property('name');
+        expect(vote.name).to.be.equal('Jake\'s secret party');
+        return eventId;
+      })
+      .then(id => showEvent(`${endpoint}/${id}`, id))
+      .then((body) => {
+        expect(body.dates).to.have.lengthOf(payload.dates.length);
+        expect(body.dates).to.include.members(payload.dates);
+      });
+  });
 });

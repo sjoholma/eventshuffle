@@ -1,36 +1,33 @@
-const { expect, create, list } = require('./wrappers');
+const {
+  createEvent,
+  listEvents,
+} = require('./methods');
 
-describe('list', () => {
-  let id = 0;
+const { expect } = require('chai');
 
-  before((done) => {
-    const payload = {
-      name: 'Jake\'s secret party',
-      dates: [
-        '2014-01-01',
-        '2014-01-05',
-        '2014-01-12',
-      ],
-    };
+describe('Create plenty and list all of them', () => {
+  const endpoint = '/api/v1/event';
 
-    const body = { body: JSON.stringify(payload) };
+  it('should create five events and return all of them in a list', () => {
+    const parties = [];
 
-    create.run({ body }).then((r) => {
-      if (r.statusCode !== 200) {
-        done(new Error(r.statusCode));
-      } else {
-        id = r.body.id;
-        done();
-      }
-    });
+    function createParty(version) {
+      const payload = { name: `Jake's secret party ${version}`, dates: ['2014-01-01'] };
+      return createEvent(endpoint, payload)
+        .then((id) => {
+          parties.push({ id, name: payload.name });
+        });
+    }
+
+    return createParty(1)
+      .then(createParty(2))
+      .then(createParty(3))
+      .then(createParty(4))
+      .then(createParty(5))
+      .then(() => listEvents(`${endpoint}/list`))
+      .then((events) => {
+        expect(events).to.be.an('array');
+        expect(events).to.include.deep.members(parties);
+      });
   });
-
-  it('list events', () =>
-    list.run({}).then((r) => {
-      expect(r).to.have.property('statusCode', 200);
-      expect(r.body).to.have.property('events');
-      const event = r.body.events.find(e => e.id === id);
-      expect(event).to.have.property('name');
-      expect(event.name).to.be('Jake\'s secret party');
-    }));
 });
