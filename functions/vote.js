@@ -4,8 +4,11 @@ const lib = require('./lib');
 module.exports.vote = (event, context, callback) => {
   const data = lib.parse(event.body);
 
-  if (data === undefined || typeof data.name !== 'string' || !lib.ensureArray(data.votes)) {
-    lib.fail(callback, { error: { statusCode: 400 } }, 'Syntax error');
+  if (data === undefined ||
+    typeof data.name !== 'string' ||
+    data.name.length === 0 ||
+    !lib.ensureArray(data.votes)) {
+    lib.fail(callback, { statusCode: 400 }, 'Syntax error');
     return;
   }
 
@@ -15,11 +18,12 @@ module.exports.vote = (event, context, callback) => {
       Key: {
         id: event.pathParameters.id,
       },
-      UpdateExpression: 'set votes = :votes, modified = :modified',
+      UpdateExpression: 'set votes = :votes, modified = :modified add voteCount :increment',
       ExpressionAttributeValues: {
         ':votes': votes,
         ':timestamp': timestamp,
         ':modified': (new Date()).getTime(),
+        ':increment': 1,
       },
       ConditionExpression: 'modified = :timestamp',
       ReturnValues: 'ALL_NEW',
@@ -31,7 +35,7 @@ module.exports.vote = (event, context, callback) => {
       } else {
         callback(null, {
           statusCode: 200,
-          body: JSON.stringify(results),
+          body: JSON.stringify(results.Attributes),
         });
       }
     });
@@ -48,11 +52,18 @@ module.exports.vote = (event, context, callback) => {
   dynamoDb.get(params, (error, results) => {
     if (error) {
       lib.fail(callback, error, 'Vote failed');
+    } else if (!results.Item) {
+      lib.fail(callback, { statusCode: 404 }, 'Event not found');
     } else {
       const uniqueVotes = [...new Set(data.votes)];
 
       const validVotes = uniqueVotes.filter(v =>
         results.Item.dates.includes(v));
+
+      if (validVotes.length === 0) {
+        lib.fail(callback, { statusCode: 400 }, 'Invalid date');
+        return;
+      }
 
       const existingVotes = results.Item.votes || [];
 

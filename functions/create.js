@@ -6,7 +6,7 @@ module.exports.create = (event, context, callback) => {
   const data = lib.parse(event.body);
 
   if (data === undefined || typeof data.name !== 'string' || !lib.ensureArray(data.dates)) {
-    lib.fail(callback, { error: { statusCode: 400 } }, 'Syntax error');
+    lib.fail(callback, { statusCode: 400 }, 'Syntax error');
     return;
   }
 

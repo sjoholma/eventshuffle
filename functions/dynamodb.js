@@ -2,18 +2,14 @@ const AWS = require('aws-sdk');
 
 AWS.config.update({ region: 'europe-west-1' });
 
-let options = {
-  region: 'localhost',
-  endpoint: 'http://localhost:8000',
-};
+let options = {};
 
-// Uncomment for live run. For now serverless-mocha-plugin doesn't set offline flag
-// https://github.com/nordcloud/serverless-mocha-plugin/issues/83
-/*
-if (!process.env.IS_OFFLINE) {
-  options = {};
+if (process.env.IS_OFFLINE) {
+  options = {
+    region: 'localhost',
+    endpoint: 'http://localhost:8000',
+  };
 }
-*/
 
 const client = new AWS.DynamoDB.DocumentClient(options);
 
