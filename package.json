@@ -8,7 +8,8 @@
     "url": "git://github.com/sjoholma/eventshuffle.git"
   },
   "scripts": {
-    "test": "clear; ./node_modules/.bin/mocha --timeout 5000"
+    "test": "clear; ./node_modules/.bin/mocha --timeout 5000",
+    "deploy": "./node_modules/.bin/serverless deploy"
   },
   "devDependencies": {
     "chai": "^4.1.2",
@@ -17,13 +18,13 @@
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-mocha": "^5.0.0",
     "mocha": "^5.2.0",
+    "serverless": "^1.27.3",
     "serverless-dynamodb-local": "^0.2.30",
     "serverless-mocha-plugin": "^1.8.3",
     "serverless-offline": "^3.23.0"
   },
   "dependencies": {
     "aws-sdk": "^2.243.1",
-    "serverless": "^1.27.3",
     "uuid": "^3.2.1"
   }
 }
