@@ -9,13 +9,18 @@ npm install
 
 # Offline execution
 ```
-./node_modules/.bin/serverless dynamodb start -d . -m true
+./node_modules/.bin/serverless dynamodb start
 (kill)
 ./node_modules/.bin/serverless offline start
+```
+
+# Tests
+```
+npm test
 ```
 
 # Deployment
 ```
 ./node_modules/.bin/serverless config credentials --provider aws --key xxx --secret xxx
-./node_modules/.bin/serverless deploy
+npm deploy
 ```
