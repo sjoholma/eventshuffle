@@ -3,7 +3,6 @@ service: eventshuffle
 plugins:
   - serverless-dynamodb-local
   - serverless-offline
-  - serverless-mocha-plugin
 
 provider:
   name: aws
@@ -30,11 +29,6 @@ custom:
       port: 8000
       dbPath: ${env:PWD}
       migrate: true
-  serverless-mocha-plugin:
-    preTestCommands: 
-      - bash startOffline.sh
-    postTestCommands:
-      - bash stopOffline.sh
 
 functions:
   list:
