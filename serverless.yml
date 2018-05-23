@@ -1,0 +1,88 @@
+service: eventshuffle
+
+plugins:
+  - serverless-dynamodb-local
+  - serverless-offline
+  - serverless-mocha-plugin
+
+provider:
+  name: aws
+  stage: dev
+  runtime: nodejs8.10
+  environment:
+    eventsTable: ${self:service}-${opt:stage, self:provider.stage}-events
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:UpdateItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.eventsTable}"
+
+custom:
+  dynamodb:
+    start:
+      port: 8000
+      dbPath: ${env:PWD}
+      migrate: true
+  serverless-mocha-plugin:
+    preTestCommands: 
+      - bash startOffline.sh
+    postTestCommands:
+      - bash stopOffline.sh
+
+functions:
+  list:
+    handler: functions/list.list
+    events:
+      - http:
+          path: api/v1/event/list
+          method: get
+
+  create:
+    handler: functions/create.create
+    events:
+      - http:
+          path: api/v1/event
+          method: post
+
+  show:
+    handler: functions/show.show
+    events:
+      - http:
+          path: api/v1/event/{id}
+          method: get
+
+  vote:
+    handler: functions/vote.vote
+    events:
+      - http:
+          path: api/v1/event/{id}/vote
+          method: post
+
+  results:
+    handler: functions/results.results
+    events:
+      - http:
+          path: api/v1/event/{id}/results
+          method: get
+
+resources:
+  Resources:
+    EventsDb:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.eventsTable}
