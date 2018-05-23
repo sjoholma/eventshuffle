@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "aws-sdk": "^2.243.1",
-    "npm": "^6.0.1",
+    "serverless": "^1.27.3",
     "uuid": "^3.2.1"
   }
 }

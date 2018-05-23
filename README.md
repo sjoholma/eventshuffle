@@ -1,13 +1,5 @@
 # Requirements
-
 - Node v8.10 or newer
-- Serverless 
-
-```
-brew install node
-npm i -g serverless
-```
-
 # Setup
 
 ```
