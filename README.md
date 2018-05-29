@@ -1,10 +1,12 @@
 # Requirements
 - Node v8.10 or newer
-# Setup
+- AWS credentials
 
+# Setup
 ```
 npm install
 ./node_modules/.bin/serverless dynamodb install
+./node_modules/.bin/serverless config credentials --provider aws --key xxx --secret xxx
 ```
 
 # Offline execution
@@ -21,6 +23,5 @@ npm test
 
 # Deployment
 ```
-./node_modules/.bin/serverless config credentials --provider aws --key xxx --secret xxx
 npm deploy
 ```
