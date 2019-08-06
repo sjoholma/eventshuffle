@@ -1,11 +1,11 @@
+const { expect } = require('chai');
+
 const {
   post,
   createEvent,
   listEvents,
   showEvent,
 } = require('./methods');
-
-const { expect } = require('chai');
 
 describe('Create, list and show', () => {
   const endpoint = '/api/v1/event';

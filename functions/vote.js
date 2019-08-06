@@ -4,10 +4,10 @@ const lib = require('./lib');
 module.exports.vote = (event, context, callback) => {
   const data = lib.parse(event.body);
 
-  if (data === undefined ||
-    typeof data.name !== 'string' ||
-    data.name.length === 0 ||
-    !lib.ensureArray(data.votes)) {
+  if (data === undefined
+    || typeof data.name !== 'string'
+    || data.name.length === 0
+    || !lib.ensureArray(data.votes)) {
     lib.fail(callback, { statusCode: 400 }, 'Syntax error');
     return;
   }
@@ -57,8 +57,7 @@ module.exports.vote = (event, context, callback) => {
     } else {
       const uniqueVotes = [...new Set(data.votes)];
 
-      const validVotes = uniqueVotes.filter(v =>
-        results.Item.dates.includes(v));
+      const validVotes = uniqueVotes.filter(v => results.Item.dates.includes(v));
 
       if (validVotes.length === 0) {
         lib.fail(callback, { statusCode: 400 }, 'Invalid date');
@@ -75,8 +74,9 @@ module.exports.vote = (event, context, callback) => {
         return x;
       });
 
-      const validVotesNewDays = validVotes.filter(v =>
-        existingVotes.find(x => x.date === v) === undefined);
+      const validVotesNewDays = validVotes.filter(v => (
+        existingVotes.find(x => x.date === v) === undefined
+      ));
 
       const newVotes = validVotesNewDays.map(v => ({
         date: v,
