@@ -37,7 +37,7 @@ describe('Try some invalid votes', () => {
     };
 
     return createEvent(endpoint, eventPayload)
-      .then(id => post(`${endpoint}/${id}/vote`, vote).expect(400));
+      .then((id) => post(`${endpoint}/${id}/vote`, vote).expect(400));
   });
 
   it('should return 400 for invalid dates', () => {
@@ -58,6 +58,6 @@ describe('Try some invalid votes', () => {
     };
 
     return createEvent(endpoint, eventPayload)
-      .then(id => post(`${endpoint}/${id}/vote`, vote).expect(400));
+      .then((id) => post(`${endpoint}/${id}/vote`, vote).expect(400));
   });
 });

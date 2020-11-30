@@ -51,17 +51,17 @@ describe('Create, vote and show event', () => {
         expect(votes).to.be.an('array');
         expect(votes).to.have.lengthOf(3);
 
-        let vote = votes.find(v => v.date === '2014-01-01');
+        let vote = votes.find((v) => v.date === '2014-01-01');
         expect(vote.people).to.be.an('array');
         expect(vote.people).to.have.lengthOf(2);
         expect(vote.people).to.include.members(['John', 'Dick']);
 
-        vote = votes.find(v => v.date === '2014-01-05');
+        vote = votes.find((v) => v.date === '2014-01-05');
         expect(vote.people).to.be.an('array');
         expect(vote.people).to.have.lengthOf(1);
         expect(vote.people).to.include.members(['Dick']);
 
-        vote = votes.find(v => v.date === '2014-01-12');
+        vote = votes.find((v) => v.date === '2014-01-12');
         expect(vote.people).to.be.an('array');
         expect(vote.people).to.have.lengthOf(1);
         expect(vote.people).to.include.members(['John']);

@@ -16,7 +16,7 @@ const fail = function fail(callback, error, expl) {
 };
 
 const ensureArray = function ensureArray(array) {
-  return Array.isArray(array) && array.length > 0 && array.every(i => typeof i === 'string');
+  return Array.isArray(array) && array.length > 0 && array.every((i) => typeof i === 'string');
 };
 
 module.exports = {

@@ -13,7 +13,7 @@ module.exports.results = (event, context, callback) => {
     if (error) {
       callback(null, lib.failed(error, 'Show results failed'));
     } else {
-      const dates = results.Item.votes.filter(v => v.people.length === results.Item.voteCount);
+      const dates = results.Item.votes.filter((v) => v.people.length === results.Item.voteCount);
 
       callback(null, {
         statusCode: 200,

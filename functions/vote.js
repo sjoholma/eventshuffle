@@ -57,7 +57,7 @@ module.exports.vote = (event, context, callback) => {
     } else {
       const uniqueVotes = [...new Set(data.votes)];
 
-      const validVotes = uniqueVotes.filter(v => results.Item.dates.includes(v));
+      const validVotes = uniqueVotes.filter((v) => results.Item.dates.includes(v));
 
       if (validVotes.length === 0) {
         lib.fail(callback, { statusCode: 400 }, 'Invalid date');
@@ -67,18 +67,18 @@ module.exports.vote = (event, context, callback) => {
       const existingVotes = results.Item.votes || [];
 
       const appendedVotes = existingVotes.map((x) => {
-        const vote = validVotes.find(v => v === x.date);
+        const vote = validVotes.find((v) => v === x.date);
         if (vote !== undefined) {
           x.people.push(data.name);
         }
         return x;
       });
 
-      const validVotesNewDays = validVotes.filter(v => (
-        existingVotes.find(x => x.date === v) === undefined
+      const validVotesNewDays = validVotes.filter((v) => (
+        existingVotes.find((x) => x.date === v) === undefined
       ));
 
-      const newVotes = validVotesNewDays.map(v => ({
+      const newVotes = validVotesNewDays.map((v) => ({
         date: v,
         people: [data.name],
       }));

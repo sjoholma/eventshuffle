@@ -79,7 +79,7 @@ const voteEvent = function voteEvent(url, id, payload) {
       expect(votes.length).to.be.at.most(dates.length);
 
       payload.votes.map((date) => {
-        const vote = votes.find(v => v.date === date);
+        const vote = votes.find((v) => v.date === date);
         expect(vote).to.have.property('people');
         expect(vote.people).to.be.an('array').that.includes(payload.name);
         return date;

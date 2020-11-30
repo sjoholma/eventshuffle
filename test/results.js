@@ -61,12 +61,12 @@ describe('Create, vote and show results', () => {
       .then((dates) => {
         expect(dates).to.have.lengthOf(2);
 
-        let date = dates.find(v => v.date === '2014-01-01');
+        let date = dates.find((v) => v.date === '2014-01-01');
         expect(date.people).to.be.an('array');
         expect(date.people).to.have.lengthOf(3);
         expect(date.people).to.include.members(['Dick', 'John', 'George']);
 
-        date = dates.find(v => v.date === '2014-01-12');
+        date = dates.find((v) => v.date === '2014-01-12');
         expect(date.people).to.be.an('array');
         expect(date.people).to.have.lengthOf(3);
         expect(date.people).to.include.members(['Dick', 'John', 'George']);

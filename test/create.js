@@ -44,12 +44,12 @@ describe('Create, list and show', () => {
       .then(() => listEvents(`${endpoint}/list`))
       .then((events) => {
         expect(events).to.be.an('array');
-        const vote = events.find(e => e.id === eventId);
+        const vote = events.find((e) => e.id === eventId);
         expect(vote).to.have.property('name');
         expect(vote.name).to.be.equal('Jake\'s secret party');
         return eventId;
       })
-      .then(id => showEvent(`${endpoint}/${id}`, id))
+      .then((id) => showEvent(`${endpoint}/${id}`, id))
       .then((body) => {
         expect(body.dates).to.have.lengthOf(payload.dates.length);
         expect(body.dates).to.include.members(payload.dates);
