@@ -5,18 +5,17 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "eslint": "^6.1.0",
-    "eslint-config-airbnb-base": "^13.2.0",
-    "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-mocha": "^6.0.0",
-    "mocha": "^6.2.0",
-    "serverless": "^1.49.0",
-    "serverless-dynamodb-local": "^0.2.38",
-    "serverless-offline": "^5.9.0",
-    "supertest": "^4.0.2"
+    "eslint": "^7.14.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-mocha": "^8.0.0",
+    "mocha": "^8.2.1",
+    "serverless-dynamodb-local": "^0.2.39",
+    "serverless-offline": "^6.8.0",
+    "supertest": "^6.0.1"
   },
   "dependencies": {
-    "aws-sdk": "^2.504.0",
-    "uuid": "^3.3.2"
+    "aws-sdk": "^2.799.0",
+    "uuid": "^8.3.1"
   }
 }
