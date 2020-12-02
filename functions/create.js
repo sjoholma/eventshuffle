@@ -26,9 +26,9 @@ module.exports.create = (event, context, callback) => {
     } else {
       callback(null, {
         statusCode: 200,
-        body: {
+        body: JSON.stringify({
           id: params.Item.id,
-        },
+        }),
       });
     }
   });

@@ -1,7 +1,7 @@
 const request = require('supertest');
 const { expect } = require('chai');
 
-const baseUrl = request('http://localhost:3000');
+const baseUrl = request('http://localhost:3000/dev');
 
 const get = function get(url) {
   return baseUrl

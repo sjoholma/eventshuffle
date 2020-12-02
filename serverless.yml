@@ -7,7 +7,7 @@ plugins:
 provider:
   name: aws
   stage: dev
-  runtime: nodejs8.10
+  runtime: nodejs12.x
   environment:
     eventsTable: ${self:service}-${opt:stage, self:provider.stage}-events
   iamRoleStatements:
@@ -29,6 +29,8 @@ custom:
       port: 8000
       dbPath: ${env:PWD}
       migrate: true
+    stages:
+      - ${self:provider.stage}
 
 functions:
   list:
