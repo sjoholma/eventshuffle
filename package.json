@@ -9,7 +9,7 @@
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-mocha": "^8.0.0",
-    "mocha": "^8.2.1",
+    "mocha": "^10.0.0",
     "serverless-dynamodb-local": "^0.2.39",
     "serverless-offline": "^6.8.0",
     "supertest": "^6.0.1"
